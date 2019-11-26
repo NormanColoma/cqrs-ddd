@@ -37,4 +37,9 @@ public class H2Repository implements PlayerRepository {
 
     return Optional.of(new Player(player.getId(), player.getName(), player.getDorsal()));
   }
+
+  @Override
+  public UUID generateID() {
+    return UUID.randomUUID();
+  }
 }

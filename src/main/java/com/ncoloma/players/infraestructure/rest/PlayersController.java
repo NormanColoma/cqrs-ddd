@@ -1,8 +1,9 @@
 package com.ncoloma.players.infraestructure.rest;
 
-import com.ncoloma.players.application.PlayerCreator;
-import com.ncoloma.players.application.PlayerCreatorRequest;
-import com.ncoloma.players.application.PlayerUpdater;
+import com.ncoloma.players.application.create_player.CreatePlayer;
+import com.ncoloma.players.application.create_player.CreatePlayerRequest;
+import com.ncoloma.players.application.update_player.UpdatePlayer;
+import com.ncoloma.players.application.update_player.UpdatePlayerRequest;
 import com.ncoloma.players.domain.Player;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,8 +22,8 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 public class PlayersController {
-  private final PlayerCreator playerCreator;
-  private final PlayerUpdater playerUpdater;
+  private final CreatePlayer playerCreator;
+  private final UpdatePlayer playerUpdater;
 
   @GetMapping("/api/players")
   public ResponseEntity loadPlayers() {
@@ -31,15 +32,14 @@ public class PlayersController {
 
   @PostMapping("/api/players")
   public ResponseEntity addPlayer(@RequestBody PlayerRequest request) throws URISyntaxException {
-    UUID playerId = UUID.randomUUID();
-    playerCreator.create(new PlayerCreatorRequest(playerId, request.getName(), request.getDorsal()));
+    UUID playerId = playerCreator.create(new CreatePlayerRequest(request.getName(), request.getDorsal()));
     return ResponseEntity.created(new URI("/api/players/"+playerId)).build();
   }
 
   @PutMapping("/api/players/{id}")
   public ResponseEntity updatePlayer(@PathVariable("id") UUID id, @RequestBody PlayerRequest request) {
 
-    playerUpdater.update(new PlayerCreatorRequest(id, request.getName(), request.getDorsal()));
+    playerUpdater.update(new UpdatePlayerRequest(id, request.getName(), request.getDorsal()));
     return ResponseEntity.noContent().build();
   }
 }

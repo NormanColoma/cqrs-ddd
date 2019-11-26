@@ -8,4 +8,5 @@ public interface PlayerRepository {
   void save(Player player);
   Set<Optional<Player>> find();
   Optional<Player> findOne(UUID id);
+  UUID generateID();
 }
