@@ -2,6 +2,7 @@ package com.ncoloma.players.infraestructure.persistence;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
@@ -9,25 +10,23 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Player")
+@DynamicUpdate
+@Table(name = "Team")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@DynamicUpdate
-class PlayerEntity {
-  @Id
-  private UUID id;
-  private String name;
-  private int dorsal;
-  private double price;
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "team_id")
-  private TeamEntity team;
+@Data
+public class TeamEntity {
+    @Id
+    private UUID id;
+    private String name;
+    private double funds;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "team")
+    private Set<PlayerEntity> players;
 }

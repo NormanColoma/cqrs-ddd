@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class H2Repository implements PlayerRepository {
+public class PlayerH2Repository implements PlayerRepository {
 
   private final PlayerJPARepository playerJPARepository;
 
@@ -21,6 +21,7 @@ public class H2Repository implements PlayerRepository {
         .id(player.getId())
         .name(player.getName())
         .dorsal(player.getDorsal())
+        .price(player.getPrice())
         .build();
 
     playerJPARepository.save(playerToSave);
@@ -35,7 +36,7 @@ public class H2Repository implements PlayerRepository {
   public Optional<Player> findOne(UUID id) {
     PlayerEntity player = playerJPARepository.findById(id).get();
 
-    return Optional.of(new Player(player.getId(), player.getName(), player.getDorsal()));
+    return Optional.of(new Player(player.getId(), player.getName(), player.getDorsal(), player.getPrice()));
   }
 
   @Override

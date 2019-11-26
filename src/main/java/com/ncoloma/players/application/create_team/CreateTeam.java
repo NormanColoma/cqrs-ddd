@@ -1,13 +1,22 @@
 package com.ncoloma.players.application.create_team;
 
+import com.ncoloma.players.domain.Team;
+import com.ncoloma.players.domain.TeamRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class CreateTeam {
-
+  private final TeamRepository teamRepository;
   public UUID create(CreateTeamRequest request) {
-    return UUID.randomUUID();
+    UUID teamId = UUID.randomUUID();
+    Team team = new Team(teamId, request.getName(), null);
+
+    teamRepository.save(team);
+
+    return teamId;
   }
 }
