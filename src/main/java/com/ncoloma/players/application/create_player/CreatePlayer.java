@@ -12,9 +12,9 @@ import java.util.UUID;
 public class CreatePlayer {
   private final PlayerRepository playerRepository;
 
-  public UUID create(CreatePlayerRequest playerCreatorRequest) {
+  public UUID create(CreatePlayerRequest request) {
     UUID playerId = playerRepository.generateID();
-    Player player = new Player(playerId, playerCreatorRequest.getName(), playerCreatorRequest.getDorsal());
+    Player player = new Player(playerId, request.getName(), request.getDorsal(), request.getPrice());
 
     playerRepository.save(player);
 

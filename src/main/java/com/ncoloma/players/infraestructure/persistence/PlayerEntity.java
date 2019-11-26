@@ -23,4 +23,5 @@ class PlayerEntity {
   private UUID id;
   private String name;
   private int dorsal;
+  private double price;
 }

@@ -8,4 +8,5 @@ import lombok.Getter;
 public class CreatePlayerRequest {
   private String name;
   private int dorsal;
+  private double price;
 }

@@ -27,12 +27,12 @@ public class PlayersController {
 
   @GetMapping("/api/players")
   public ResponseEntity loadPlayers() {
-    return ResponseEntity.ok(new Player(UUID.randomUUID(), "Messi", 10));
+    return ResponseEntity.ok(new Player(UUID.randomUUID(), "Messi", 10, 1000));
   }
 
   @PostMapping("/api/players")
   public ResponseEntity addPlayer(@RequestBody PlayerRequest request) throws URISyntaxException {
-    UUID playerId = playerCreator.create(new CreatePlayerRequest(request.getName(), request.getDorsal()));
+    UUID playerId = playerCreator.create(new CreatePlayerRequest(request.getName(), request.getDorsal(), request.getPrice()));
     return ResponseEntity.created(new URI("/api/players/"+playerId)).build();
   }
 
@@ -49,4 +49,5 @@ public class PlayersController {
 final class PlayerRequest {
   private String name;
   private int dorsal;
+  private double price;
 }
