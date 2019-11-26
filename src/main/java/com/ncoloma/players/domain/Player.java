@@ -10,13 +10,13 @@ public class Player {
   private String name;
   private int dorsal;
   private double price;
-  private UUID teamId;
+  private Team team;
 
   public Player(UUID id, String name, int dorsal, double price){
     this.id = id;
     this.name = name;
     this.dorsal = dorsal;
-    this.teamId = null;
+    this.team = null;
     price(price);
   }
 
@@ -24,8 +24,8 @@ public class Player {
     this.dorsal = dorsal;
   }
 
-  void changeTeam(UUID teamId) {
-    this.teamId = teamId;
+  void changeTeam(Team team) {
+    this.team = team;
   }
 
   private void price(double price) {

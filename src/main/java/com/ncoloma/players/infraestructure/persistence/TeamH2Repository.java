@@ -20,26 +20,24 @@ public class TeamH2Repository implements TeamRepository {
 
     @Override
     public void save(Team team) {
-        TeamEntity teamToBeSaved = TeamEntity.builder()
-                .id(team.getId())
-                .name(team.getName())
-                .funds(team.getFunds())
-                .build();
-
-        Set<Player> players = team.getPlayers();
-        Set<PlayerEntity> playerEntities = null;
-        if (Objects.nonNull(team.getPlayers())) {
-            playerEntities = players.stream()
+        Set<PlayerEntity> playerEntities = team.getPlayers().stream()
                     .map(it -> PlayerEntity.builder()
                             .id(it.getId())
                             .name(it.getName())
                             .price(it.getPrice())
                             .dorsal(it.getDorsal())
-                            .team(teamToBeSaved)
+                            .team(TeamEntity.builder().id(team.getId()).build())
                             .build()
                     )
                     .collect(Collectors.toSet());
-        }
+
+        TeamEntity teamToBeSaved = TeamEntity.builder()
+                .id(team.getId())
+                .name(team.getName())
+                .funds(team.getFunds())
+                .players(playerEntities)
+                .build();
+
 
         teamToBeSaved.setPlayers(playerEntities);
         teamJPARepository.save(teamToBeSaved);

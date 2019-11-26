@@ -25,7 +25,7 @@ public class Team {
     if (player.getPrice() >= funds) {
       throw new RuntimeException("Cannot afford this player");
     }
-    player.changeTeam(id);
+    player.changeTeam(this);
     this.funds -= player.getPrice();
     this.players.add(player);
   }

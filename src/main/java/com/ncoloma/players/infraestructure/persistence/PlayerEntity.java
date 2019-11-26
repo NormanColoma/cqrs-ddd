@@ -28,6 +28,5 @@ class PlayerEntity {
   private int dorsal;
   private double price;
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "team_id")
   private TeamEntity team;
 }
