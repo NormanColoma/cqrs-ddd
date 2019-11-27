@@ -16,7 +16,6 @@ public class Player {
     this.id = id;
     this.name = name;
     this.dorsal = dorsal;
-    this.team = null;
     price(price);
   }
 

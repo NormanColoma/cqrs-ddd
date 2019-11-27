@@ -14,11 +14,11 @@ public class Team {
   private Set<Player> players;
   private double funds;
 
-  public Team(UUID id, String name, Set<Player> players) {
+  public Team(UUID id, String name, Set<Player> players, double funds) {
     this.id = id;
     this.name = name;
     this.players = players;
-    this.funds = 5000;
+    this.funds = funds;
   }
 
   public void hirePlayer(Player player) {

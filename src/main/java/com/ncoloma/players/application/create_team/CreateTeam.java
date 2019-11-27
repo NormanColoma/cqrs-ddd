@@ -14,7 +14,7 @@ public class CreateTeam {
   private final TeamRepository teamRepository;
   public UUID create(CreateTeamRequest request) {
     UUID teamId = UUID.randomUUID();
-    Team team = new Team(teamId, request.getName(), new HashSet<>());
+    Team team = new Team(teamId, request.getName(), new HashSet<>(), request.getFunds());
 
     teamRepository.save(team);
 

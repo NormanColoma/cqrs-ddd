@@ -46,14 +46,15 @@ public class TeamH2Repository implements TeamRepository {
     @Override
     public Optional<Team> findOne(UUID id) {
         TeamEntity teamEntity = teamJPARepository.findById(id).get();
-
-        Set<Player> players = new HashSet<>();
-        if (Objects.nonNull(teamEntity.getPlayers())) {
-            teamEntity.getPlayers().stream()
-                    .map(it -> new Player(it.getId(), it.getName(), it.getDorsal(), it.getPrice()));
-        }
-        Team team = new Team(teamEntity.getId(), teamEntity.getName(), players);
+        Set<Player> players = teamEntity.getPlayers().stream()
+            .map(it -> new Player(it.getId(), it.getName(), it.getDorsal(), it.getPrice())).collect(Collectors.toSet());
+        Team team = new Team(teamEntity.getId(), teamEntity.getName(), players, teamEntity.getFunds());
 
         return Optional.of(team);
+    }
+
+    @Override
+    public UUID generateID() {
+        return UUID.randomUUID();
     }
 }

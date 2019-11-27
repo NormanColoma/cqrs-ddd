@@ -2,6 +2,8 @@ package com.ncoloma.players.infraestructure.rest;
 
 import com.ncoloma.players.application.create_team.CreateTeam;
 import com.ncoloma.players.application.create_team.CreateTeamRequest;
+import com.ncoloma.players.application.find_team.FindTeam;
+import com.ncoloma.players.application.find_team.FindTeamRequest;
 import com.ncoloma.players.application.hire_player.HirePlayer;
 import com.ncoloma.players.application.hire_player.HirePlayerRequest;
 import lombok.AllArgsConstructor;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -24,10 +27,16 @@ import java.util.UUID;
 public class TeamController {
   private final CreateTeam createTeam;
   private final HirePlayer hirePlayer;
+  private final FindTeam findTeam;
+
+  @GetMapping("/api/teams/{id}")
+  public ResponseEntity loadTeam(@PathVariable UUID id) {
+    return ResponseEntity.of(Optional.of(findTeam.find(new FindTeamRequest(id))));
+  }
 
   @PostMapping("/api/teams")
   public ResponseEntity create(@RequestBody TeamRequest teamRequest) throws URISyntaxException {
-    UUID teamId = createTeam.create(new CreateTeamRequest(teamRequest.getName()));
+    UUID teamId = createTeam.create(new CreateTeamRequest(teamRequest.getName(), teamRequest.getFunds()));
     return ResponseEntity.created(new URI("/api/teams/" + teamId)).build();
   }
 
@@ -43,5 +52,6 @@ public class TeamController {
 @NoArgsConstructor
 final class TeamRequest {
   private String name;
+  private double funds;
 }
 

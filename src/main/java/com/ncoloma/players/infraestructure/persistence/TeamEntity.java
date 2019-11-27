@@ -24,7 +24,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class TeamEntity {
+class TeamEntity {
     @Id
     private UUID id;
     private String name;

@@ -8,4 +8,5 @@ import lombok.Getter;
 @Getter
 public class CreateTeamRequest {
   private String name;
+  private double funds;
 }

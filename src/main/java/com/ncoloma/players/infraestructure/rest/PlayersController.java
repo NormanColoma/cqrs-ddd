@@ -32,7 +32,7 @@ public class PlayersController {
 
   @PostMapping("/api/players")
   public ResponseEntity addPlayer(@RequestBody PlayerRequest request) throws URISyntaxException {
-    UUID playerId = playerCreator.create(new CreatePlayerRequest(request.getName(), request.getDorsal(), request.getPrice()));
+    UUID playerId = playerCreator.create(new CreatePlayerRequest(request.getName(), request.getDorsal(), request.getPrice(), request.getTeam()));
     return ResponseEntity.created(new URI("/api/players/"+playerId)).build();
   }
 
@@ -50,4 +50,5 @@ final class PlayerRequest {
   private String name;
   private int dorsal;
   private double price;
+  private UUID team;
 }
