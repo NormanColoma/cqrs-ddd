@@ -19,10 +19,6 @@ public class Player {
     price(price);
   }
 
-  public void changeDorsal(int dorsal) {
-    this.dorsal = dorsal;
-  }
-
   void changeTeam(Team team) {
     this.team = team;
   }
