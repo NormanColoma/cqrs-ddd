@@ -19,7 +19,7 @@ public class Team {
     this.id = id;
     this.name = name;
     this.players = players;
-    this.funds = funds;
+    funds(funds);
   }
 
   public void hirePlayer(Player player) {
@@ -29,8 +29,16 @@ public class Team {
     if (player.getPrice() >= funds) {
       throw new CannotAffordPlayerException("Cannot afford this player");
     }
+
     player.changeTeam(this);
-    this.funds -= player.getPrice();
-    this.players.add(player);
+    funds(funds - player.getPrice());
+    players.add(player);
+  }
+
+  private void funds(double funds) {
+    if (funds <= 0) {
+      throw new TeamFundsMustBeGreaterThanZero("Funds of a team must be greater than 0 euros");
+    }
+    this.funds = funds;
   }
 }
