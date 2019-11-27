@@ -30,7 +30,7 @@ public class Team {
       throw new CannotAffordPlayerException("Cannot afford this player");
     }
 
-    player.changeTeam(this);
+    player.team(this);
     funds(funds - player.getPrice());
     players.add(player);
   }

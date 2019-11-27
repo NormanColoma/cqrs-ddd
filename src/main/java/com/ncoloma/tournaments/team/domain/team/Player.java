@@ -2,6 +2,7 @@ package com.ncoloma.tournaments.team.domain.team;
 
 import lombok.Getter;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -19,7 +20,10 @@ public class Player {
     price(price);
   }
 
-  void changeTeam(Team team) {
+  void team(Team team) {
+    if (Objects.isNull(team)) {
+      throw new PlayerMustBelongToATeamException("A player must have a team");
+    }
     this.team = team;
   }
 
