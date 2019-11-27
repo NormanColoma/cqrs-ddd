@@ -6,6 +6,8 @@ import com.ncoloma.tournaments.team.domain.team.TeamRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -23,7 +25,17 @@ public class TeamH2Repository implements TeamRepository {
 
     @Override
     public Optional<Team> findOne(UUID id) {
-        return mapToDomain(teamJPARepository.findById(id));
+        Team team = mapToDomain(teamJPARepository.findById(id).orElse(null));
+
+        return Objects.isNull(team) ? Optional.empty() : Optional.of(team);
+    }
+
+    @Override
+    public List<Team> findAll() {
+        return teamJPARepository.findAll()
+            .stream()
+            .map(this::mapToDomain)
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -32,15 +44,14 @@ public class TeamH2Repository implements TeamRepository {
     }
 
 
-    private Optional<Team> mapToDomain(Optional<TeamEntity> teamEntity) {
-        if (teamEntity.isPresent()) {
-            TeamEntity teamEntityRetrieved = teamEntity.get();
-            Set<Player> players = teamEntityRetrieved.getPlayers().stream()
+    private Team mapToDomain(TeamEntity team) {
+        if (Objects.nonNull(team)) {
+            Set<Player> players = team.getPlayers().stream()
                 .map(it -> new Player(it.getId(), it.getName(), it.getDorsal(), it.getPrice())).collect(Collectors.toSet());
 
-            return Optional.of(new Team(teamEntityRetrieved.getId(), teamEntityRetrieved.getName(), players, teamEntityRetrieved.getFunds()));
+            return new Team(team.getId(), team.getName(), players, team.getFunds());
         }
-       return Optional.empty();
+       return null;
     }
 
     private TeamEntity mapToEntity(Team team) {

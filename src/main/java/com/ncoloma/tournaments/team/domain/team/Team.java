@@ -13,7 +13,7 @@ public class Team {
   private String name;
   private Set<Player> players;
   private double funds;
-  private final int MAX_PLAYERS = 18;
+  private static final int MAX_PLAYERS = 18;
 
   public Team(UUID id, String name, Set<Player> players, double funds) {
     this.id = id;
