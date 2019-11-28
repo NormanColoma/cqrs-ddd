@@ -10,6 +10,7 @@ import com.ncoloma.tournaments.team.application.hire_player.HirePlayerRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 public class TeamController {
   private final CreateTeam createTeam;
   private final HirePlayer hirePlayer;
@@ -43,6 +45,7 @@ public class TeamController {
 
   @GetMapping("/api/teams/{id}")
   public ResponseEntity<FindTeamResponse> loadTeam(@PathVariable UUID id) {
+    log.info("Getting info about team: " + id);
     return ResponseEntity.of(Optional.of(findTeam.find(new FindTeamRequest(id))));
   }
 

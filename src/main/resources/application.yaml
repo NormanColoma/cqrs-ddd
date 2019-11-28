@@ -4,6 +4,12 @@ spring:
     driver-class-name: oracle.jdbc.OracleDriver
     username: setsdev
     password: sets001
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
+    tomcat:
+      test-on-borrow: true
+      validation-query: SELECT 1 FROM DUAL
+
   jpa:
     database-platform: org.hibernate.dialect.Oracle10gDialect
-    show-sql: true
+    show-sql: false

@@ -7,6 +7,7 @@ import com.ncoloma.tournaments.team.application.update_player.UpdatePlayerReques
 import com.ncoloma.tournaments.team.domain.team.Player;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @AllArgsConstructor
 public class PlayersController {
@@ -32,6 +34,7 @@ public class PlayersController {
 
   @PostMapping("/api/teams/{team}/players")
   public ResponseEntity addPlayer(@PathVariable UUID team, @RequestBody PlayerRequest request) throws URISyntaxException {
+    log.info("Adding player to team: " + team);
     UUID playerId = playerCreator.create(new CreatePlayerRequest(request.getName(), request.getDorsal(), request.getPrice(), team));
     return ResponseEntity.created(new URI("http://localhost:8080/api/players/"+playerId)).build();
   }
