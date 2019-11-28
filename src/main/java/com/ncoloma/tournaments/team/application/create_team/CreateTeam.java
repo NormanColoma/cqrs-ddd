@@ -13,7 +13,7 @@ import java.util.UUID;
 public class CreateTeam {
   private final TeamRepository teamRepository;
   public UUID create(CreateTeamRequest request) {
-    UUID teamId = UUID.randomUUID();
+    UUID teamId = teamRepository.generateID();
     Team team = new Team(teamId, request.getName(), new HashSet<>(), request.getFunds());
 
     teamRepository.save(team);

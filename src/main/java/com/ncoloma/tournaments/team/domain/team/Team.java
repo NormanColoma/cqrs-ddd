@@ -23,9 +23,9 @@ public class Team {
   }
 
   public void hirePlayer(Player player) {
-    if (players.size() == MAX_PLAYERS) {
+    /*if (players.size() == MAX_PLAYERS) {
       throw new TeamIsFullException("Team already has 18 players hired");
-    }
+    }*/
     if (player.getPrice() >= funds) {
       throw new CannotAffordPlayerException("Cannot afford this player");
     }
@@ -35,6 +35,10 @@ public class Team {
     players.add(player);
   }
 
+  public void modifyPlayer(Player currentPlayer, Player newPlayer) {
+    players.remove(currentPlayer);
+    players.add(newPlayer);
+  }
   private void funds(double funds) {
     if (funds <= 0) {
       throw new TeamFundsMustBeGreaterThanZero("Funds of a team must be greater than 0 euros");

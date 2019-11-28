@@ -1,12 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:players
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: password
+    url: jdbc:oracle:thin:@localhost:1521/xe
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: setsdev
+    password: sets001
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.Oracle10gDialect
     show-sql: true
-  h2:
-    console:
-      enabled: true

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,13 +19,14 @@ import java.util.UUID;
 
 @Entity
 @DynamicUpdate
-@Table(name = "Team")
+@Table(name = "TEAM")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 class TeamEntity {
     @Id
+    @Type(type = "uuid-char")
     private UUID id;
     private String name;
     private double funds;

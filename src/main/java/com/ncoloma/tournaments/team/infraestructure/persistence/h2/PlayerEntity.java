@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Player")
+@Table(name = "PLAYER")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,6 +23,7 @@ import java.util.UUID;
 @DynamicUpdate
 class PlayerEntity {
   @Id
+  @Type(type = "uuid-char")
   private UUID id;
   private String name;
   private int dorsal;

@@ -1,5 +1,6 @@
 package com.ncoloma.tournaments.team.domain.team;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -25,6 +26,12 @@ public class Player {
       throw new PlayerMustBelongToATeamException("A player must have a team");
     }
     this.team = team;
+  }
+
+  public void modify(Player player) {
+    name = player.getName();
+    dorsal(player.getDorsal());
+    price(player.getPrice());
   }
 
   private void price(double price) {
