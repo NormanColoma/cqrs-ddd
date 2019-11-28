@@ -9,5 +9,6 @@ public interface TeamRepository {
     Optional<Team> findOne(UUID id);
     Optional<Team> findOneWithPlayer(UUID playerId);
     List<Team> findAll();
+    List<Team> findAllWithoutPlayers();
     UUID generateID();
 }

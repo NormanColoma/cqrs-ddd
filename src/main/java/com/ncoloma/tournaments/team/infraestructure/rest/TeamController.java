@@ -36,6 +36,11 @@ public class TeamController {
     return ResponseEntity.of(Optional.of(findTeam.find()));
   }
 
+  @GetMapping("/api/teams/only")
+  public ResponseEntity<List<FindTeamResponse>> loadTeamsWithoutPlayers() {
+    return ResponseEntity.of(Optional.of(findTeam.findWithoutPlayers()));
+  }
+
   @GetMapping("/api/teams/{id}")
   public ResponseEntity<FindTeamResponse> loadTeam(@PathVariable UUID id) {
     return ResponseEntity.of(Optional.of(findTeam.find(new FindTeamRequest(id))));

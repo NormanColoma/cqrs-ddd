@@ -25,6 +25,12 @@ public class FindTeam {
         .collect(Collectors.toList());
   }
 
+  public List<FindTeamResponse> findWithoutPlayers() {
+    return teamRepository.findAllWithoutPlayers().stream()
+        .map(this::toResponse)
+        .collect(Collectors.toList());
+  }
+
   private FindTeamResponse toResponse(Team team) {
 
     return FindTeamResponse.builder()

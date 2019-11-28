@@ -56,6 +56,14 @@ public class TeamH2Repository implements TeamRepository {
     }
 
     @Override
+    public List<Team> findAllWithoutPlayers() {
+        return teamJPARepository.findAll()
+            .stream()
+            .map(this::mapToDomainWithoutPlayers)
+            .collect(Collectors.toList());
+    }
+
+    @Override
     public UUID generateID() {
         return UUID.randomUUID();
     }
@@ -67,6 +75,13 @@ public class TeamH2Repository implements TeamRepository {
                 .map(it -> new Player(it.getId(), it.getName(), it.getDorsal(), it.getPrice())).collect(Collectors.toSet());
 
             return new Team(team.getId(), team.getName(), players, team.getFunds());
+        }
+       return null;
+    }
+
+    private Team mapToDomainWithoutPlayers(TeamEntity team) {
+        if (Objects.nonNull(team)) {
+            return new Team(team.getId(), team.getName(), new HashSet<>(), team.getFunds());
         }
        return null;
     }
