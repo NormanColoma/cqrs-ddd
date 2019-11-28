@@ -13,7 +13,7 @@ public class UpdatePlayer {
   private final TeamRepository teamRepository;
 
   public void update(UpdatePlayerRequest request) {
-    Team team = teamRepository.findOne(request.getTeamId()).get();
+    Team team = teamRepository.findOneWithPlayer(request.getPlayerId()).get();
 
     Player currentPlayer = team.getPlayers().stream().filter(it -> it.getId().equals(request.getPlayerId())).findFirst().get();
     Player playerToBeModified = new Player(request.getPlayerId(), request.getName(), request.getDorsal(), request.getPrice());

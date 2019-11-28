@@ -6,12 +6,19 @@ import com.ncoloma.tournaments.team.domain.team.TeamRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.Arrays.asList;
 
 @Repository
 @AllArgsConstructor
@@ -28,6 +35,16 @@ public class TeamH2Repository implements TeamRepository {
         Team team = mapToDomain(teamJPARepository.findById(id).orElse(null));
 
         return Objects.isNull(team) ? Optional.empty() : Optional.of(team);
+    }
+
+    @Override
+    public Optional<Team> findOneWithPlayer(UUID playerId) {
+        TeamWithPlayer teamWithPlayer = new ArrayList<>(teamJPARepository.findByPlayersId(playerId)).get(0);
+        PlayerEntity playerEntity = teamWithPlayer.getPlayers();
+        Player player = new Player(playerEntity.getId(), playerEntity.getName(), playerEntity.getDorsal(), playerEntity.getPrice());
+        Team team = new Team(teamWithPlayer.getId(), teamWithPlayer.getName(), Stream.of(player).collect(Collectors.toSet()), teamWithPlayer.getFunds());
+
+        return Optional.of(team);
     }
 
     @Override

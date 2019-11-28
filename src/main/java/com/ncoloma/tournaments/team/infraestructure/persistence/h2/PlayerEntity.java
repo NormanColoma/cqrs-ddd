@@ -21,7 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @DynamicUpdate
-class PlayerEntity {
+public class PlayerEntity {
   @Id
   @Type(type = "uuid-char")
   private UUID id;

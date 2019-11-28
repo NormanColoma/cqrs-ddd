@@ -24,7 +24,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-class TeamEntity {
+public class TeamEntity {
     @Id
     @Type(type = "uuid-char")
     private UUID id;
