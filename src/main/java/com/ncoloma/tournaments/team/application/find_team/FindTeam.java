@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -14,8 +15,8 @@ import java.util.stream.Collectors;
 public class FindTeam {
   private final TeamRepository teamRepository;
 
-  public FindTeamResponse find(FindTeamRequest request) {
-    Team team = teamRepository.findOne(request.getId()).orElseThrow(() -> new TeamNotFoundException(String.format("Team %s does not exist", request.getId())));
+  public FindTeamResponse find(UUID teamId) {
+    Team team = teamRepository.findOne(teamId).orElseThrow(() -> new TeamNotFoundException(String.format("Team %s does not exist", teamId)));
     return toResponse(team);
   }
 
