@@ -3,12 +3,12 @@ package com.ncoloma.tournaments.team.infraestructure.rest;
 import com.ncoloma.tournaments.team.application.create_team.CreateTeam;
 import com.ncoloma.tournaments.team.application.create_team.CreateTeamRequest;
 import com.ncoloma.tournaments.team.application.find_team.FindTeam;
-import com.ncoloma.tournaments.team.application.find_team.FindTeamCommand;
+import com.ncoloma.tournaments.team.application.find_team.FindTeamQuery;
 import com.ncoloma.tournaments.team.application.find_team.FindTeamResponse;
 import com.ncoloma.tournaments.team.application.hire_player.HirePlayer;
 import com.ncoloma.tournaments.team.application.hire_player.HirePlayerRequest;
-import com.ncoloma.tournaments.team.domain.command.ResponseCommand;
-import com.ncoloma.tournaments.team.infraestructure.bus.CommandBus;
+import com.ncoloma.tournaments.team.domain.bus.query.Response;
+import com.ncoloma.tournaments.team.domain.bus.query.QueryBus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +34,7 @@ public class TeamController {
   private final CreateTeam createTeam;
   private final HirePlayer hirePlayer;
   private final FindTeam findTeam;
-  private final CommandBus bus;
+  private final QueryBus bus;
 
   @GetMapping("/api/teams")
   public ResponseEntity<List<FindTeamResponse>> loadTeams() {
@@ -47,9 +47,9 @@ public class TeamController {
   }
 
   @GetMapping("/api/teams/{id}")
-  public ResponseEntity<ResponseCommand> loadTeam(@PathVariable UUID id) {
+  public ResponseEntity<Response> loadTeam(@PathVariable UUID id) {
     log.info("Getting info about team: " + id);
-    return ResponseEntity.of(Optional.of(bus.dispatch(new FindTeamCommand(id))));
+    return ResponseEntity.of(Optional.of(bus.ask(new FindTeamQuery(id))));
   }
 
   @PostMapping("/api/teams")
