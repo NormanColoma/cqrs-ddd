@@ -1,4 +1,4 @@
-package com.ncoloma.tournaments.team.domain.bus.query;
+package com.ncoloma.tournaments.team.domain.bus;
 
 public interface Response {
 }

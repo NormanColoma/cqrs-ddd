@@ -3,7 +3,7 @@ package com.ncoloma.tournaments.team.infraestructure.bus;
 import com.ncoloma.tournaments.team.domain.bus.query.Query;
 import com.ncoloma.tournaments.team.domain.bus.query.QueryBus;
 import com.ncoloma.tournaments.team.domain.bus.query.QueryHandler;
-import com.ncoloma.tournaments.team.domain.bus.query.Response;
+import com.ncoloma.tournaments.team.domain.bus.Response;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
