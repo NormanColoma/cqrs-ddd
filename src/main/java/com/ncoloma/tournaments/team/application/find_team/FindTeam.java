@@ -35,7 +35,7 @@ public class FindTeam {
     private FindTeamResponse toResponse(Team team) {
 
         return FindTeamResponse.builder()
-                .id(team.getId().toString())
+                .id(team.getId().getId().toString())
                 .name(team.getName())
                 .currentFunds(team.getFunds())
                 .totalPlayers(team.getPlayers().size())

@@ -11,10 +11,6 @@ import java.util.List;
 public class FindTeamsResponse implements Response {
   private final List<FindTeamResponse> teams;
 
-  public List<FindTeamResponse> teams() {
-    return teams;
-  }
-
   public FindTeamsResponse(List<FindTeamResponse> teams) {
     this.teams = teams;
   }

@@ -3,13 +3,12 @@ package com.ncoloma.tournaments.team.infraestructure.persistence.h2;
 import com.ncoloma.tournaments.team.domain.team.Player;
 import com.ncoloma.tournaments.team.domain.team.PlayerDetails;
 import com.ncoloma.tournaments.team.domain.team.Team;
+import com.ncoloma.tournaments.team.domain.team.TeamId;
 import com.ncoloma.tournaments.team.domain.team.TeamRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -18,8 +17,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static java.util.Arrays.asList;
 
 @Repository
 @AllArgsConstructor
@@ -43,7 +40,7 @@ public class TeamH2Repository implements TeamRepository {
         TeamWithPlayer teamWithPlayer = new ArrayList<>(teamJPARepository.findByPlayersId(playerId)).get(0);
         PlayerEntity playerEntity = teamWithPlayer.getPlayers();
         Player player = new Player(playerEntity.getId(), new PlayerDetails(playerEntity.getName(), playerEntity.getDorsal(), playerEntity.getPrice()));
-        Team team = new Team(teamWithPlayer.getId(), teamWithPlayer.getName(), Stream.of(player).collect(Collectors.toSet()), teamWithPlayer.getFunds());
+        Team team = new Team(new TeamId(teamWithPlayer.getId()), teamWithPlayer.getName(), Stream.of(player).collect(Collectors.toSet()), teamWithPlayer.getFunds());
 
         return Optional.of(team);
     }
@@ -75,14 +72,14 @@ public class TeamH2Repository implements TeamRepository {
             Set<Player> players = team.getPlayers().stream()
                 .map(it -> new Player(it.getId(), new PlayerDetails(it.getName(), it.getDorsal(), it.getPrice()))).collect(Collectors.toSet());
 
-            return new Team(team.getId(), team.getName(), players, team.getFunds());
+            return new Team(new TeamId(team.getId()), team.getName(), players, team.getFunds());
         }
        return null;
     }
 
     private Team mapToDomainWithoutPlayers(TeamEntity team) {
         if (Objects.nonNull(team)) {
-            return new Team(team.getId(), team.getName(), new HashSet<>(), team.getFunds());
+            return new Team(new TeamId(team.getId()), team.getName(), new HashSet<>(), team.getFunds());
         }
        return null;
     }
@@ -94,13 +91,13 @@ public class TeamH2Repository implements TeamRepository {
                 .name(it.getDetails().getName())
                 .price(it.getDetails().getPrice())
                 .dorsal(it.getDetails().getDorsal())
-                .team(TeamEntity.builder().id(team.getId()).build())
+                .team(TeamEntity.builder().id(team.getId().getId()).build())
                 .build()
             )
             .collect(Collectors.toSet());
 
         return TeamEntity.builder()
-            .id(team.getId())
+            .id(team.getId().getId())
             .name(team.getName())
             .funds(team.getFunds())
             .players(playerEntities)

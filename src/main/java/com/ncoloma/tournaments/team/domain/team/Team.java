@@ -4,18 +4,17 @@ package com.ncoloma.tournaments.team.domain.team;
 import lombok.Getter;
 
 import java.util.Set;
-import java.util.UUID;
 
 
 @Getter
 public class Team {
-  private UUID id;
+  private TeamId id;
   private String name;
   private Set<Player> players;
   private double funds;
   private static final int MAX_PLAYERS = 18;
 
-  public Team(UUID id, String name, Set<Player> players, double funds) {
+  public Team(TeamId id, String name, Set<Player> players, double funds) {
     this.id = id;
     this.name = name;
     this.players = players;
@@ -23,9 +22,10 @@ public class Team {
   }
 
   public void hirePlayer(Player player) {
-    /*if (players.size() == MAX_PLAYERS) {
+    // Comment this if you want to bulk insert for performance
+    if (players.size() == MAX_PLAYERS) {
       throw new TeamIsFullException("Team already has 18 players hired");
-    }*/
+    }
     if (player.getDetails().getPrice() >= funds) {
       throw new CannotAffordPlayerException("Cannot afford this player");
     }

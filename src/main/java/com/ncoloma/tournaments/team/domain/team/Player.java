@@ -9,14 +9,14 @@ import java.util.UUID;
 public class Player {
   private UUID id;
   private PlayerDetails details;
-  private UUID teamId;
+  private TeamId teamId;
 
   public Player(UUID id, PlayerDetails details){
     this.id = id;
     this.details = details;
   }
 
-  void team(UUID teamId) {
+  void team(TeamId teamId) {
     if (Objects.isNull(teamId)) {
       throw new PlayerMustBelongToATeamException("A player must have a team");
     }
