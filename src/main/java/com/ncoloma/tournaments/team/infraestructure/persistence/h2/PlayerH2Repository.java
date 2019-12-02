@@ -1,8 +1,8 @@
 package com.ncoloma.tournaments.team.infraestructure.persistence.h2;
 
-import com.ncoloma.tournaments.team.domain.team.Player;
-import com.ncoloma.tournaments.team.domain.team.PlayerDetails;
-import com.ncoloma.tournaments.team.domain.team.PlayerRepository;
+import com.ncoloma.tournaments.team.domain.team.player.Player;
+import com.ncoloma.tournaments.team.domain.team.player.PlayerDetails;
+import com.ncoloma.tournaments.team.domain.team.player.PlayerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

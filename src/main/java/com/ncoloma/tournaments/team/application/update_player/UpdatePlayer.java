@@ -1,7 +1,7 @@
 package com.ncoloma.tournaments.team.application.update_player;
 
-import com.ncoloma.tournaments.team.domain.team.Player;
-import com.ncoloma.tournaments.team.domain.team.PlayerDetails;
+import com.ncoloma.tournaments.team.domain.team.player.Player;
+import com.ncoloma.tournaments.team.domain.team.player.PlayerDetails;
 import com.ncoloma.tournaments.team.domain.team.Team;
 import com.ncoloma.tournaments.team.domain.team.TeamRepository;
 import lombok.AllArgsConstructor;
@@ -23,9 +23,9 @@ public class UpdatePlayer {
         .filter(it -> it.getId().equals(playerId))
         .findFirst().get();
 
-    Player playerToBeModified = new Player(playerId, new PlayerDetails(newDetails.getName(), newDetails.getDorsal(), newDetails.getPrice()));
+    currentPlayer.modify(new PlayerDetails(newDetails.getName(), newDetails.getDorsal(), newDetails.getPrice()));
 
-    team.modifyPlayer(currentPlayer, playerToBeModified);
+    team.modifyPlayer(currentPlayer);
 
     teamRepository.save(team);
   }

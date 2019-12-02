@@ -1,4 +1,4 @@
-package com.ncoloma.tournaments.team.domain.team;
+package com.ncoloma.tournaments.team.domain.team.player;
 
 import java.util.Optional;
 import java.util.Set;

@@ -1,7 +1,7 @@
 package com.ncoloma.tournaments.team.application.hire_player;
 
-import com.ncoloma.tournaments.team.domain.team.Player;
-import com.ncoloma.tournaments.team.domain.team.PlayerRepository;
+import com.ncoloma.tournaments.team.domain.team.player.Player;
+import com.ncoloma.tournaments.team.domain.team.player.PlayerRepository;
 import com.ncoloma.tournaments.team.domain.team.Team;
 import com.ncoloma.tournaments.team.domain.team.TeamRepository;
 import lombok.AllArgsConstructor;

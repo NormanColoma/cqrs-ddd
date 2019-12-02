@@ -1,5 +1,6 @@
-package com.ncoloma.tournaments.team.domain.team;
+package com.ncoloma.tournaments.team.domain.team.player;
 
+import com.ncoloma.tournaments.team.domain.team.TeamId;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -16,7 +17,7 @@ public class Player {
     this.details = details;
   }
 
-  void team(TeamId teamId) {
+  public void team(TeamId teamId) {
     if (Objects.isNull(teamId)) {
       throw new PlayerMustBelongToATeamException("A player must have a team");
     }

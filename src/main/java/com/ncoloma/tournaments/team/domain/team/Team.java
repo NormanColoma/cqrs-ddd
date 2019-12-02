@@ -1,6 +1,7 @@
 package com.ncoloma.tournaments.team.domain.team;
 
 
+import com.ncoloma.tournaments.team.domain.team.player.Player;
 import lombok.Getter;
 
 import java.util.Set;
@@ -35,9 +36,9 @@ public class Team {
     players.add(player);
   }
 
-  public void modifyPlayer(Player currentPlayer, Player newPlayer) {
+  public void modifyPlayer(Player currentPlayer) {
     players.remove(currentPlayer);
-    players.add(newPlayer);
+    players.add(currentPlayer);
   }
   private void funds(double funds) {
     if (funds <= 0) {
