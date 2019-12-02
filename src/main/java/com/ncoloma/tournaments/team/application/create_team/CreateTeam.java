@@ -12,9 +12,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CreateTeam {
   private final TeamRepository teamRepository;
-  public UUID create(CreateTeamRequest request) {
+  public UUID create(String name, double funds) {
     UUID teamId = teamRepository.generateID();
-    Team team = new Team(teamId, request.getName(), new HashSet<>(), request.getFunds());
+    Team team = new Team(teamId, name, new HashSet<>(), funds);
 
     teamRepository.save(team);
 

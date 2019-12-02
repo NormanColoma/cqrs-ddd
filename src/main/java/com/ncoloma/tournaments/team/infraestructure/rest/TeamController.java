@@ -1,14 +1,14 @@
 package com.ncoloma.tournaments.team.infraestructure.rest;
 
-import com.ncoloma.tournaments.team.application.create_team.CreateTeam;
-import com.ncoloma.tournaments.team.application.create_team.CreateTeamRequest;
+import com.ncoloma.tournaments.team.application.create_team.CreateTeamCommand;
 import com.ncoloma.tournaments.team.application.find_team.FindTeam;
 import com.ncoloma.tournaments.team.application.find_team.FindTeamQuery;
 import com.ncoloma.tournaments.team.application.find_team.FindTeamResponse;
 import com.ncoloma.tournaments.team.application.hire_player.HirePlayer;
 import com.ncoloma.tournaments.team.application.hire_player.HirePlayerRequest;
-import com.ncoloma.tournaments.team.domain.bus.query.Response;
+import com.ncoloma.tournaments.team.domain.bus.command.CommandBus;
 import com.ncoloma.tournaments.team.domain.bus.query.QueryBus;
+import com.ncoloma.tournaments.team.domain.bus.query.Response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,10 +31,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @Slf4j
 public class TeamController {
-  private final CreateTeam createTeam;
   private final HirePlayer hirePlayer;
   private final FindTeam findTeam;
-  private final QueryBus bus;
+  private final QueryBus queryBus;
+  private final CommandBus commandBus;
 
   @GetMapping("/api/teams")
   public ResponseEntity<List<FindTeamResponse>> loadTeams() {
@@ -49,12 +49,12 @@ public class TeamController {
   @GetMapping("/api/teams/{id}")
   public ResponseEntity<Response> loadTeam(@PathVariable UUID id) {
     log.info("Getting info about team: " + id);
-    return ResponseEntity.of(Optional.of(bus.ask(new FindTeamQuery(id))));
+    return ResponseEntity.of(Optional.of(queryBus.ask(new FindTeamQuery(id))));
   }
 
   @PostMapping("/api/teams")
-  public ResponseEntity create(@RequestBody TeamRequest teamRequest) throws URISyntaxException {
-    UUID teamId = createTeam.create(new CreateTeamRequest(teamRequest.getName(), teamRequest.getFunds()));
+  public ResponseEntity<UUID> create(@RequestBody TeamRequest teamRequest) throws URISyntaxException {
+    UUID teamId = commandBus.dispatch(new CreateTeamCommand(teamRequest.getName(), teamRequest.getFunds()));
     return ResponseEntity.created(new URI("http://localhost:8080/api/teams/" + teamId)).build();
   }
 
