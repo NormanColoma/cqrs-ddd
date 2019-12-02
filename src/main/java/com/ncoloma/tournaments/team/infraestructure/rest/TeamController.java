@@ -1,12 +1,10 @@
 package com.ncoloma.tournaments.team.infraestructure.rest;
 
 import com.ncoloma.tournaments.team.application.create_team.CreateTeamCommand;
-import com.ncoloma.tournaments.team.application.find_team.FindTeam;
 import com.ncoloma.tournaments.team.application.find_team.FindTeamQuery;
 import com.ncoloma.tournaments.team.application.find_team.FindTeamsQuery;
 import com.ncoloma.tournaments.team.application.find_team.FindTeamsResponse;
 import com.ncoloma.tournaments.team.application.find_team.FindTeamsWithoutPlayersQuery;
-import com.ncoloma.tournaments.team.application.hire_player.HirePlayer;
 import com.ncoloma.tournaments.team.application.hire_player.HirePlayerCommand;
 import com.ncoloma.tournaments.team.domain.bus.command.CommandBus;
 import com.ncoloma.tournaments.team.domain.bus.query.QueryBus;
@@ -32,8 +30,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Slf4j
 public class TeamController {
-  private final HirePlayer hirePlayer;
-  private final FindTeam findTeam;
   private final QueryBus queryBus;
   private final CommandBus commandBus;
 

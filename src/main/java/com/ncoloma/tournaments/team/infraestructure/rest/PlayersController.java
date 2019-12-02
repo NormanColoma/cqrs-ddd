@@ -1,9 +1,8 @@
 package com.ncoloma.tournaments.team.infraestructure.rest;
 
-import com.ncoloma.tournaments.team.application.create_player.CreatePlayer;
-import com.ncoloma.tournaments.team.application.create_player.CreatePlayerRequest;
-import com.ncoloma.tournaments.team.application.update_player.UpdatePlayer;
-import com.ncoloma.tournaments.team.application.update_player.UpdatePlayerRequest;
+import com.ncoloma.tournaments.team.application.create_player.CreatePlayerCommand;
+import com.ncoloma.tournaments.team.application.update_player.UpdatePlayerCommand;
+import com.ncoloma.tournaments.team.domain.bus.command.CommandBus;
 import com.ncoloma.tournaments.team.domain.team.Player;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,8 +23,7 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 public class PlayersController {
-  private final CreatePlayer playerCreator;
-  private final UpdatePlayer updatePlayer;
+  private final CommandBus commandBus;
 
   @GetMapping("/api/teams/{team}/players")
   public ResponseEntity loadPlayers(@PathVariable UUID team) {
@@ -35,13 +33,15 @@ public class PlayersController {
   @PostMapping("/api/teams/{team}/players")
   public ResponseEntity addPlayer(@PathVariable UUID team, @RequestBody PlayerRequest request) throws URISyntaxException {
     log.info("Adding player to team: " + team);
-    UUID playerId = playerCreator.create(new CreatePlayerRequest(request.getName(), request.getDorsal(), request.getPrice(), team));
+
+    UUID playerId = commandBus.dispatch(new CreatePlayerCommand(request.getName(), request.getDorsal(), request.getPrice(), team));
     return ResponseEntity.created(new URI("http://localhost:8080/api/players/"+playerId)).build();
   }
 
   @PutMapping("/api/teams/{team}/players/{player}/update")
   public ResponseEntity modifyPlayer(@PathVariable UUID team, @PathVariable UUID player, @RequestBody PlayerRequest request) {
-    updatePlayer.update(new UpdatePlayerRequest(request.getName(), request.getPrice(), request.getDorsal(), player, team));
+
+    commandBus.dispatch(new UpdatePlayerCommand(request.getName(), request.getPrice(), request.getDorsal(), player, team));
     return ResponseEntity.noContent().build();
   }
 
