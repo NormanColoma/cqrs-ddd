@@ -3,9 +3,11 @@ package com.ncoloma.tournaments.team.infraestructure.rest;
 import com.ncoloma.tournaments.team.application.create_team.CreateTeamCommand;
 import com.ncoloma.tournaments.team.application.find_team.FindTeam;
 import com.ncoloma.tournaments.team.application.find_team.FindTeamQuery;
-import com.ncoloma.tournaments.team.application.find_team.FindTeamResponse;
+import com.ncoloma.tournaments.team.application.find_team.FindTeamsQuery;
+import com.ncoloma.tournaments.team.application.find_team.FindTeamsResponse;
+import com.ncoloma.tournaments.team.application.find_team.FindTeamsWithoutPlayersQuery;
 import com.ncoloma.tournaments.team.application.hire_player.HirePlayer;
-import com.ncoloma.tournaments.team.application.hire_player.HirePlayerRequest;
+import com.ncoloma.tournaments.team.application.hire_player.HirePlayerCommand;
 import com.ncoloma.tournaments.team.domain.bus.command.CommandBus;
 import com.ncoloma.tournaments.team.domain.bus.query.QueryBus;
 import com.ncoloma.tournaments.team.domain.bus.query.Response;
@@ -23,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,13 +38,16 @@ public class TeamController {
   private final CommandBus commandBus;
 
   @GetMapping("/api/teams")
-  public ResponseEntity<List<FindTeamResponse>> loadTeams() {
-    return ResponseEntity.of(Optional.of(findTeam.find()));
+  public ResponseEntity<FindTeamsResponse> loadTeams() {
+    log.info("Getting info about teams without players");
+
+    return ResponseEntity.of(Optional.of(queryBus.ask(new FindTeamsQuery())));
   }
 
   @GetMapping("/api/teams/only")
-  public ResponseEntity<List<FindTeamResponse>> loadTeamsWithoutPlayers() {
-    return ResponseEntity.of(Optional.of(findTeam.findWithoutPlayers()));
+  public ResponseEntity<FindTeamsResponse> loadTeamsWithoutPlayers() {
+    log.info("Getting info about teams without players");
+    return ResponseEntity.of(Optional.of(queryBus.ask(new FindTeamsWithoutPlayersQuery())));
   }
 
   @GetMapping("/api/teams/{id}")
@@ -60,7 +64,8 @@ public class TeamController {
 
   @PutMapping("/api/teams/{teamId}/players/{playerId}")
   public ResponseEntity hirePlayer(@PathVariable UUID teamId, @PathVariable UUID playerId) {
-    hirePlayer.hire(new HirePlayerRequest(teamId, playerId));
+    commandBus.dispatch(new HirePlayerCommand(teamId, playerId));
+
     return ResponseEntity.noContent().build();
   }
 }
