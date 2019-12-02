@@ -1,6 +1,5 @@
 package com.ncoloma.tournaments.team.domain.team;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -9,42 +8,23 @@ import java.util.UUID;
 @Getter
 public class Player {
   private UUID id;
-  private String name;
-  private int dorsal;
-  private double price;
-  private Team team;
+  private PlayerDetails details;
+  private UUID teamId;
 
-  public Player(UUID id, String name, int dorsal, double price){
+  public Player(UUID id, PlayerDetails details){
     this.id = id;
-    this.name = name;
-    dorsal(dorsal);
-    price(price);
+    this.details = details;
   }
 
-  void team(Team team) {
-    if (Objects.isNull(team)) {
+  void team(UUID teamId) {
+    if (Objects.isNull(teamId)) {
       throw new PlayerMustBelongToATeamException("A player must have a team");
     }
-    this.team = team;
+    this.teamId = teamId;
   }
 
-  public void modify(Player player) {
-    name = player.getName();
-    dorsal(player.getDorsal());
-    price(player.getPrice());
+  public void modify(PlayerDetails details) {
+    this.details = new PlayerDetails(details.getName(), details.getDorsal(), details.getPrice());
   }
 
-  private void price(double price) {
-    if (price <= 0) {
-      throw new PlayerPriceMustBeAboveZeroException("Price must be above 0 euros");
-    }
-    this.price = price;
-  }
-
-  private void dorsal(int dorsal) {
-    if (dorsal >= 100) {
-      throw new InvalidPlayerDorsal("Dorsal of a player must be between 0 and 99");
-    }
-    this.dorsal = dorsal;
-  }
 }

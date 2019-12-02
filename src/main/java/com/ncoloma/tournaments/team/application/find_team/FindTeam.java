@@ -41,7 +41,7 @@ public class FindTeam {
                 .totalPlayers(team.getPlayers().size())
                 .players(team.getPlayers()
                         .stream()
-                        .map(player -> PlayerResponse.builder().name(player.getName()).dorsal(player.getDorsal()).build())
+                        .map(player -> PlayerResponse.builder().name(player.getDetails().getName()).dorsal(player.getDetails().getDorsal()).build())
                         .collect(Collectors.toSet())
                 )
                 .build();

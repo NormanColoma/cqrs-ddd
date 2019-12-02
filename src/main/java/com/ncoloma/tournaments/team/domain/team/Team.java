@@ -26,12 +26,12 @@ public class Team {
     /*if (players.size() == MAX_PLAYERS) {
       throw new TeamIsFullException("Team already has 18 players hired");
     }*/
-    if (player.getPrice() >= funds) {
+    if (player.getDetails().getPrice() >= funds) {
       throw new CannotAffordPlayerException("Cannot afford this player");
     }
 
-    player.team(this);
-    funds(funds - player.getPrice());
+    player.team(id);
+    funds(funds - player.getDetails().getPrice());
     players.add(player);
   }
 

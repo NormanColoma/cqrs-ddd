@@ -1,6 +1,8 @@
 package com.ncoloma.tournaments.team.application.update_player;
 
 import com.ncoloma.tournaments.team.domain.bus.command.CommandHandler;
+import com.ncoloma.tournaments.team.domain.team.Player;
+import com.ncoloma.tournaments.team.domain.team.PlayerDetails;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,7 @@ public class UpdatePlayerCommandHandler implements CommandHandler<UpdatePlayerCo
 
   @Override
   public UUID handle(UpdatePlayerCommand command) {
-    updatePlayer.update(new UpdatePlayerRequest(command.getName(), command.getPrice(), command.getDorsal(), command.getPlayerId(), command.getTeamId()));
+    updatePlayer.update(command.getPlayerId(), new PlayerDetails(command.getName(), command.getDorsal(), command.getPrice()));
     return command.getPlayerId();
   }
 }

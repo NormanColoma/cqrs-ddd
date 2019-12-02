@@ -13,7 +13,7 @@ public class HirePlayerCommandHandler implements CommandHandler<HirePlayerComman
 
   @Override
   public UUID handle(HirePlayerCommand command) {
-    hirePlayer.hire(new HirePlayerRequest(command.getTeamId(), command.getPlayerId()));
+    hirePlayer.hire(command.getTeamId(), command.getPlayerId());
     return command.getPlayerId();
   }
 }

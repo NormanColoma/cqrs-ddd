@@ -7,6 +7,8 @@ import com.ncoloma.tournaments.team.domain.team.TeamRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class HirePlayer {
@@ -14,9 +16,9 @@ public class HirePlayer {
     private final PlayerRepository playerRepository;
     private final TeamRepository teamRepository;
 
-    public void hire(HirePlayerRequest request) {
-        Player player = playerRepository.findOne(request.getPlayerId()).get();
-        Team team = teamRepository.findOne(request.getTeamId()).get();
+    public void hire(UUID teamId, UUID playerId) {
+        Player player = playerRepository.findOne(playerId).get();
+        Team team = teamRepository.findOne(teamId).get();
 
         team.hirePlayer(player);
 

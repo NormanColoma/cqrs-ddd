@@ -1,9 +1,7 @@
 package com.ncoloma.tournaments.team.application.create_player;
 
-import com.ncoloma.tournaments.team.application.hire_player.HirePlayer;
-import com.ncoloma.tournaments.team.application.hire_player.HirePlayerCommand;
-import com.ncoloma.tournaments.team.application.hire_player.HirePlayerRequest;
 import com.ncoloma.tournaments.team.domain.bus.command.CommandHandler;
+import com.ncoloma.tournaments.team.domain.team.PlayerDetails;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +14,6 @@ public class CreatePlayerCommandHandler implements CommandHandler<CreatePlayerCo
 
   @Override
   public UUID handle(CreatePlayerCommand command) {
-    return playerCreator.create(new CreatePlayerRequest(command.getName(), command.getDorsal(), command.getPrice(), command.getTeamId()));
+    return playerCreator.create(new PlayerDetails(command.getName(), command.getDorsal(), command.getPrice()), command.getTeamId());
   }
 }

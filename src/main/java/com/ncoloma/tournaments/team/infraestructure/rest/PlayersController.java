@@ -4,6 +4,7 @@ import com.ncoloma.tournaments.team.application.create_player.CreatePlayerComman
 import com.ncoloma.tournaments.team.application.update_player.UpdatePlayerCommand;
 import com.ncoloma.tournaments.team.domain.bus.command.CommandBus;
 import com.ncoloma.tournaments.team.domain.team.Player;
+import com.ncoloma.tournaments.team.domain.team.PlayerDetails;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,7 @@ public class PlayersController {
 
   @GetMapping("/api/teams/{team}/players")
   public ResponseEntity loadPlayers(@PathVariable UUID team) {
-    return ResponseEntity.ok(new Player(UUID.randomUUID(), "Messi", 10, 1000));
+    return ResponseEntity.ok(new Player(UUID.randomUUID(), new PlayerDetails("Messi", 10, 1000)));
   }
 
   @PostMapping("/api/teams/{team}/players")
