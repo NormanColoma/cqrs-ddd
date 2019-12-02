@@ -2,6 +2,7 @@ package com.ncoloma.tournaments.team.infraestructure.persistence.h2;
 
 import com.ncoloma.tournaments.team.domain.team.player.Player;
 import com.ncoloma.tournaments.team.domain.team.player.PlayerDetails;
+import com.ncoloma.tournaments.team.domain.team.player.PlayerId;
 import com.ncoloma.tournaments.team.domain.team.player.PlayerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class PlayerH2Repository implements PlayerRepository {
   @Override
   public void save(Player player) {
     PlayerEntity playerToSave = PlayerEntity.builder()
-        .id(player.getId())
+        .id(player.getId().getId())
         .name(player.getDetails().getName())
         .dorsal(player.getDetails().getDorsal())
         .price(player.getDetails().getPrice())
@@ -37,7 +38,7 @@ public class PlayerH2Repository implements PlayerRepository {
   public Optional<Player> findOne(UUID id) {
     PlayerEntity player = playerJPARepository.findById(id).get();
 
-    return Optional.of(new Player(player.getId(), new PlayerDetails(player.getName(), player.getDorsal(), player.getPrice())));
+    return Optional.of(new Player(new PlayerId(player.getId()), new PlayerDetails(player.getName(), player.getDorsal(), player.getPrice())));
   }
 
   @Override

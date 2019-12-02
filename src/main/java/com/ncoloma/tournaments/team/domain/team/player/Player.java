@@ -4,15 +4,14 @@ import com.ncoloma.tournaments.team.domain.team.TeamId;
 import lombok.Getter;
 
 import java.util.Objects;
-import java.util.UUID;
 
 @Getter
 public class Player {
-  private UUID id;
+  private PlayerId id;
   private PlayerDetails details;
   private TeamId teamId;
 
-  public Player(UUID id, PlayerDetails details){
+  public Player(PlayerId id, PlayerDetails details){
     this.id = id;
     this.details = details;
   }

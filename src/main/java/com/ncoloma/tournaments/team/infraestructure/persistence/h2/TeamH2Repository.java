@@ -5,6 +5,7 @@ import com.ncoloma.tournaments.team.domain.team.player.PlayerDetails;
 import com.ncoloma.tournaments.team.domain.team.Team;
 import com.ncoloma.tournaments.team.domain.team.TeamId;
 import com.ncoloma.tournaments.team.domain.team.TeamRepository;
+import com.ncoloma.tournaments.team.domain.team.player.PlayerId;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -39,7 +40,7 @@ public class TeamH2Repository implements TeamRepository {
     public Optional<Team> findOneWithPlayer(UUID playerId) {
         TeamWithPlayer teamWithPlayer = new ArrayList<>(teamJPARepository.findByPlayersId(playerId)).get(0);
         PlayerEntity playerEntity = teamWithPlayer.getPlayers();
-        Player player = new Player(playerEntity.getId(), new PlayerDetails(playerEntity.getName(), playerEntity.getDorsal(), playerEntity.getPrice()));
+        Player player = new Player(new PlayerId(playerEntity.getId()), new PlayerDetails(playerEntity.getName(), playerEntity.getDorsal(), playerEntity.getPrice()));
         Team team = new Team(new TeamId(teamWithPlayer.getId()), teamWithPlayer.getName(), Stream.of(player).collect(Collectors.toSet()), teamWithPlayer.getFunds());
 
         return Optional.of(team);
@@ -70,7 +71,7 @@ public class TeamH2Repository implements TeamRepository {
     private Team mapToDomain(TeamEntity team) {
         if (Objects.nonNull(team)) {
             Set<Player> players = team.getPlayers().stream()
-                .map(it -> new Player(it.getId(), new PlayerDetails(it.getName(), it.getDorsal(), it.getPrice()))).collect(Collectors.toSet());
+                .map(it -> new Player(new PlayerId(it.getId()), new PlayerDetails(it.getName(), it.getDorsal(), it.getPrice()))).collect(Collectors.toSet());
 
             return new Team(new TeamId(team.getId()), team.getName(), players, team.getFunds());
         }
@@ -87,7 +88,7 @@ public class TeamH2Repository implements TeamRepository {
     private TeamEntity mapToEntity(Team team) {
         Set<PlayerEntity> playerEntities = team.getPlayers().stream()
             .map(it -> PlayerEntity.builder()
-                .id(it.getId())
+                .id(it.getId().getId())
                 .name(it.getDetails().getName())
                 .price(it.getDetails().getPrice())
                 .dorsal(it.getDetails().getDorsal())
